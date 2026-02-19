@@ -9,7 +9,7 @@ import Profile from "./pages/Profile";
 import Meditation from "./pages/Meditation";
 import Event from "./pages/Event";
 import Support from "./pages/Support";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem("token");
   return token ? children : <Navigate to="/auth" />;
