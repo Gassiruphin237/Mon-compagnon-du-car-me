@@ -9,8 +9,7 @@ import Profile from "./pages/Profile";
 import Meditation from "./pages/Meditation";
 import Event from "./pages/Event";
 import Support from "./pages/Support";
-
-// Composant pour protéger les routes (Reste inchangé, c'est parfait)
+import { Analytics } from "@vercel/analytics/next"
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem("token");
   return token ? children : <Navigate to="/auth" />;
@@ -19,18 +18,13 @@ const PrivateRoute = ({ children }) => {
 function App() {
   return (
     <>
-      {/* Toaster en dehors du Router pour être accessible partout */}
+    <Analytics/>
       <Toaster position="top-center" richColors closeButton />
 
       <Router>
         <Routes>
-          {/* Redirection automatique vers le dashboard au lancement */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
-
-          {/* Page d'authentification */}
           <Route path="/auth" element={<AuthPage />} />
-
-          {/* Le vrai Dashboard protégé */}
           <Route
             path="/dashboard"
             element={
