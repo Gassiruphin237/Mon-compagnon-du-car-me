@@ -1,7 +1,7 @@
 // src/services/authService.js
 import axios from "axios";
 
-const API_URL = "https://mon-compagnon-du-careme-backend.vercel.app/api";
+const API_URL = "https://mon-compagnon-du-careme-backend.vercel.app/api/auth/";
 
 const api = axios.create({
   baseURL: API_URL,
