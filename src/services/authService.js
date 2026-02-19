@@ -1,9 +1,7 @@
 // src/services/authService.js
 import axios from "axios";
 
-// const API_URL = "http://localhost:7500/api/auth";
-// // src/services/authService.js
-const API_URL = "http://192.168.50.171:7500/api/auth";
+const API_URL = "https://mon-compagnon-du-careme-backend.vercel.app/api";
 
 const api = axios.create({
   baseURL: API_URL,
