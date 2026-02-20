@@ -101,20 +101,21 @@ export default function DashboardLayout({ children }) {
         </div>
       </main>
 
-      {/* Mobile Nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-3 z-50">
-        {navItems.map((item) => (
-          <Link
-            key={item.path}
-            to={item.path}
-            className={`flex flex-col items-center gap-1 ${location.pathname === item.path ? "text-purple-600" : "text-slate-400"
-              }`}
-          >
-            <item.icon size={20} />
-            <span className="text-[10px]">{item.label}</span>
-          </Link>
-        ))}
-      </nav>
+    {/* Mobile Nav */}
+<nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t flex justify-around p-3 z-[100] pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
+  {navItems.map((item) => (
+    <Link
+      key={item.path}
+      to={item.path}
+      className={`flex flex-col items-center gap-1 transition-colors ${
+        location.pathname === item.path ? "text-purple-600" : "text-slate-400"
+      }`}
+    >
+      <item.icon size={20} />
+      <span className="text-[10px] font-medium">{item.label}</span>
+    </Link>
+  ))}
+</nav>
     </div>
   );
 }
