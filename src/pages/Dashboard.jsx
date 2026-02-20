@@ -6,7 +6,8 @@ import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import {
   Sun, Coffee, Heart, Flame, CheckCircle2,
-  Quote, Calendar, TrendingUp, Target, Sparkles, Loader2
+  Quote, Calendar, TrendingUp, Target, Sparkles, Loader2,
+  Trophy, Medal, Star
 } from "lucide-react";
 import { toast } from "sonner";
 import { challengeService } from "../services/challengeService";
@@ -95,9 +96,21 @@ export default function Dashboard() {
       setCompleting(false);
     }
   };
+
+  // --- LOGIQUE DES BADGES ---
+  const completedCount = data ? parseInt(data.progression) : 0;
+  
+  const getUserBadge = () => {
+    if (completedCount >= 31) return { name: "Apôtre de Lumière", icon: <Trophy size={18} className="text-amber-500" />, color: "bg-amber-50 text-amber-700" };
+    if (completedCount >= 16) return { name: "Disciple Fidèle", icon: <Medal size={18} className="text-indigo-500" />, color: "bg-indigo-50 text-indigo-700" };
+    if (completedCount >= 1) return { name: "Pélerin", icon: <Star size={18} className="text-emerald-500" />, color: "bg-emerald-50 text-emerald-700" };
+    return { name: "Novice", icon: <Target size={18} className="text-slate-400" />, color: "bg-slate-50 text-slate-500" };
+  };
+
+  const currentBadge = getUserBadge();
+
   if (loading) return (
     <DashboardLayout>
-      {/* <div className="h-[60vh] flex items-center justify-center"><Loader2 className="animate-spin" /></div> */}
       <div className="h-[60vh] flex items-center justify-center">
         <Loader2 className="animate-spin text-indigo-600" size={40} />
       </div>
@@ -108,32 +121,41 @@ export default function Dashboard() {
   const kpis = [
     { label: "Progression", value: data?.progression || "0/40", icon: Sun, color: "text-amber-500", bg: "bg-amber-50", trend: "12" },
     { label: "Série Actuelle", value: `${data?.day || 0} Jours`, icon: Flame, color: "text-orange-500", bg: "bg-orange-50" },
-    { label: "Catégorie", value: data?.challenge?.category || "---", icon: Heart, color: "text-rose-500", bg: "bg-rose-50", trend: "5" },
+    { label: "Niveau", value: currentBadge.name, icon: Sparkles, color: "text-indigo-500", bg: "bg-indigo-50" },
     { label: "Objectif", value: "40 Jours", icon: Coffee, color: "text-indigo-500", bg: "bg-indigo-50" },
   ];
 
   return (
     <DashboardLayout>
       <div className="space-y-8 pb-10">
-
-        {/* En-tête de bienvenue */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Bonjour, {user.name || "Pèlerin"} 👋</h1>
-            <p className="text-slate-500">Que votre journée soit remplie de paix et de recueillement.</p>
-          </div>
-          <div className="flex items-center gap-3  px-4 py-2  ">
-            <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
-              <Calendar size={20} />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Date du jour</span>
-              <span className="text-sm font-bold text-slate-700 capitalize">
-                {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
-              </span>
-            </div>
-          </div>
-        </div>
+{/* En-tête de bienvenue - OPTIMISÉ MOBILE */}
+<div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+    <div>
+      <h1 className="text-3xl font-black text-slate-900 tracking-tight">Bonjour, {user.name || "Pèlerin"} 👋</h1>
+      <p className="text-slate-500">Que votre journée soit remplie de paix et de recueillement.</p>
+    </div>
+    
+    {/* Badge visible partout (Mobile + Desktop) */}
+    <div className={`flex items-center w-fit gap-2 px-3 py-1.5 rounded-full border ${currentBadge.color} text-[11px] font-extrabold shadow-sm mt-2 sm:mt-0`}>
+        <p className="text-[10px] uppercase font-bold tracking-widest opacity-70">Badge Actuel</p>
+      {currentBadge.icon}
+      <span className="uppercase tracking-wider">{currentBadge.name}</span>
+    </div>
+  </div>
+  
+  <div className="flex items-center gap-3 bg-white/50 backdrop-blur-sm p-2 rounded-2xl w-fit">
+    <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg shadow-sm">
+      <Calendar size={20} />
+    </div>
+    <div className="flex flex-col">
+      <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Date du jour</span>
+      <span className="text-sm font-bold text-slate-700 capitalize">
+        {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
+      </span>
+    </div>
+  </div>
+</div>
 
         <JourneyProgress currentDay={data?.day || 0} />
 
@@ -141,55 +163,56 @@ export default function Dashboard() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {kpis.map((stat, i) => <StatCard key={i} {...stat} />)}
         </div>
-<div className="border border-slate-200 bg-white rounded-xl overflow-hidden shadow-sm">
-  <div className="flex flex-col md:flex-row">
-    
-    {/* Section Vidéo - Format Shorts mieux intégré */}
-    <div className="w-full md:w-[300px] bg-slate-900 flex items-center justify-center p-4">
-      <div className="w-full aspect-[9/16] border border-white/10 rounded-md overflow-hidden bg-black">
-        <iframe 
-          width="100%" 
-          height="100%" 
-          src="https://www.youtube.com/embed/NCojJjF2XhY" 
-          title="Le carême" 
-          frameBorder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowFullScreen
-        ></iframe>
-      </div>
-    </div>
 
-    {/* Section Contenu - Style minimaliste */}
-    <div className="flex-1 p-8 flex flex-col justify-center">
-      <div className="flex items-center gap-2 mb-4">
-        <span className="h-px w-8 bg-amber-500"></span>
-        <span className="text-amber-600 font-bold text-xs uppercase tracking-tighter">Enseignement</span>
-      </div>
-      
-      <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
-        Comprendre le sens du Carême
-      </h3>
-      
-      <p className="text-slate-600 text-sm leading-relaxed mb-8 max-w-xl">
-        Découvrez en 60 secondes pourquoi le Carême dépasse la simple privation. 
-        C'est un temps de <strong>renouvellement intérieur</strong> articulé autour de trois piliers : la prière, le jeûne et l'aumône.
-      </p>
+        <div className="border border-slate-200 bg-white rounded-xl overflow-hidden shadow-sm">
+          <div className="flex flex-col md:flex-row">
+            
+            {/* Section Vidéo */}
+            <div className="w-full md:w-[300px] bg-slate-900 flex items-center justify-center p-4">
+              <div className="w-full aspect-[9/16] border border-white/10 rounded-md overflow-hidden bg-black">
+                <iframe 
+                  width="100%" 
+                  height="100%" 
+                  src="https://www.youtube.com/embed/NCojJjF2XhY" 
+                  title="Le carême" 
+                  frameBorder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
 
-      {/* Stats simples avec bordures */}
-      <div className="grid grid-cols-2 gap-0 border-t border-l border-slate-100">
-        <div className="p-4 border-r border-b border-slate-100 bg-slate-50/50">
-          <p className="text-xs text-slate-400 uppercase font-semibold mb-1">Durée</p>
-          <p className="text-slate-900 font-bold italic">40 Jours</p>
+            {/* Section Contenu */}
+            <div className="flex-1 p-8 flex flex-col justify-center">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="h-px w-8 bg-amber-500"></span>
+                <span className="text-amber-600 font-bold text-xs uppercase tracking-tighter">Enseignement</span>
+              </div>
+              
+              <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
+                Comprendre le sens du Carême
+              </h3>
+              
+              <p className="text-slate-600 text-sm leading-relaxed mb-8 max-w-xl">
+                Découvrez en 60 secondes pourquoi le Carême dépasse la simple privation. 
+                C'est un temps de <strong>renouvellement intérieur</strong> articulé autour de trois piliers : la prière, le jeûne et l'aumône.
+              </p>
+
+              <div className="grid grid-cols-2 gap-0 border-t border-l border-slate-100">
+                <div className="p-4 border-r border-b border-slate-100 bg-slate-50/50">
+                  <p className="text-xs text-slate-400 uppercase font-semibold mb-1">Durée</p>
+                  <p className="text-slate-900 font-bold italic">40 Jours</p>
+                </div>
+                <div className="p-4 border-r border-b border-slate-100 bg-slate-50/50">
+                  <p className="text-xs text-slate-400 uppercase font-semibold mb-1">But</p>
+                  <p className="text-slate-900 font-bold italic">La Résurrection</p>
+                </div>
+              </div>
+            </div>
+            
+          </div>
         </div>
-        <div className="p-4 border-r border-b border-slate-100 bg-slate-50/50">
-          <p className="text-xs text-slate-400 uppercase font-semibold mb-1">But</p>
-          <p className="text-slate-900 font-bold italic">La Résurrection</p>
-        </div>
-      </div>
-    </div>
-    
-  </div>
-</div>
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8 space-y-8">
 
@@ -209,8 +232,7 @@ export default function Dashboard() {
                     </p>
                   </div>
 
-                  {data?.completed ? (
-                    /* Message affiché si le défi est déjà fait */
+                  {data?.isCompleted ? (
                     <div className="flex items-center gap-3 bg-emerald-50 text-emerald-600 px-2 py-2 rounded-2xl border border-emerald-100 shadow-inner">
                       <div className="bg-emerald-500 text-white p-1 rounded-full">
                         <CheckCircle2 size={12} />
@@ -218,16 +240,13 @@ export default function Dashboard() {
                       <span className="text-sm font-black  tracking-tight">Défi relevé !</span>
                     </div>
                   ) : (
-                    /* Bouton original si le défi n'est pas encore fait */
                     <Button
                       onClick={handleComplete}
                       disabled={completing || !data?.challenge}
                       className="h-14 px-8 rounded-2xl bg-slate-900 hover:bg-indigo-600 text-white font-bold transition-all flex gap-3 shadow-xl"
                     >
                       {completing ? (
-                        <div className="h-[60vh] flex items-center justify-center">
-                          <Loader2 className="animate-spin text-indigo-600" size={40} />
-                        </div>
+                        <Loader2 className="animate-spin" size={20} />
                       ) : (
                         <>
                           <CheckCircle2 size={20} /> Valider l'action
@@ -239,7 +258,7 @@ export default function Dashboard() {
               </Card>
             </section>
 
-            {/* Message du Pape Léon XIV */}
+            {/* Message du Pape */}
             <Card className="p-8 border-none shadow-sm bg-indigo-50/50 rounded-3xl relative overflow-hidden group">
               <Quote className="absolute top-4 right-4 text-indigo-200 group-hover:text-indigo-300 transition-colors" size={40} />
               <div className="relative z-10 space-y-6">

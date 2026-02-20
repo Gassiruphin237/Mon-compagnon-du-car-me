@@ -90,8 +90,9 @@ export default function DashboardLayout({ children }) {
           </div>
           <button
             onClick={handleLogout}
-            className="w-10 h-10 flex items-center justify-center text-red-500 hover:bg-red-50 rounded-xl transition-colors"
+            className="w-40h-10 flex items-center justify-center text-red-500 hover:bg-red-50 rounded-xl transition-colors"
           >
+            Déconnexion &nbsp;
             <LogOut size={20} />
           </button>
         </header>
