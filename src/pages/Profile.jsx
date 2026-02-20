@@ -76,22 +76,23 @@ export default function Profile() {
             setLoading(false);
         }
     };
-
-    const handleDeleteAccount = async () => {
-        alert("fonctionalité à venir !!! merci de la compréhension")
-        // setDeleteLoading(true);
-        // try {
-        //     await new Promise(r => setTimeout(r, 1500));
-        //     authService.logout();
-        //     toast.success("Compte supprimé définitivement.");
-        //     navigate("/auth");
-        // } catch (err) {
-        //     toast.error("Erreur lors de la suppression.");
-        // } finally {
-        //     setDeleteLoading(false);
-        // }
-    };
-
+const handleDeleteAccount = async () => {
+  const confirmFirst = window.confirm("Êtes-vous sûr de vouloir supprimer définitivement votre compte ? Cette action est irréversible.");
+  
+  if (confirmFirst) {
+    const confirmSecond = window.confirm("Dernière chance : Toutes vos progressions du Carême seront effacées. Confirmer ?");
+    
+    if (confirmSecond) {
+      try {
+        await authService.deleteAccount();
+        toast.success("Votre compte a été supprimé. Bonne continuation.");
+        navigate("/auth");  
+      } catch (err) {
+        toast.error(err);
+      }
+    }
+  }
+};
     return (
         <DashboardLayout>
             <div className="max-w-4xl mx-auto space-y-8 pb-10 animate-in fade-in slide-in-from-bottom-4 duration-700">

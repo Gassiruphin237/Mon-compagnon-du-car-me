@@ -5,6 +5,7 @@ import axios from "axios";
 const API_URL = window.location.hostname === "localhost" 
   ? "http://localhost:7500/api/auth" 
   : "https://mon-compagnon-du-careme-backend.vercel.app/api/auth";
+
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -57,7 +58,6 @@ export const authService = {
       }
       return response.data;
     } catch (error) {
-      // On attrape ici le message précis (ex: "Mot de passe incorrect")
       throw error.response?.data?.error || "Erreur de connexion";
     }
   },
@@ -68,6 +68,16 @@ export const authService = {
       return response.data;
     } catch (error) {
       throw error.response?.data?.error || "Code invalide";
+    }
+  },
+  deleteAccount: async () => {
+    try {
+      const response = await api.delete("/delete-account");
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      return response.data;
+    } catch (error) {
+      throw error.response?.data?.error || "Erreur lors de la suppression du compte";
     }
   },
 
