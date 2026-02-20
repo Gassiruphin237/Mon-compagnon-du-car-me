@@ -30,7 +30,8 @@ export default function AuthPage() {
       toast.success(`Heureux de vous revoir, ${data.user.name} !`);
       navigate("/dashboard");
     } catch (err) {
-      toast.error(err.message || "Erreur de connexion.");
+      // 'err' est maintenant directement la chaîne de caractères (ex: "Email non reconnu")
+      toast.error(err); 
     } finally {
       setLoading(false);
     }
@@ -45,33 +46,29 @@ export default function AuthPage() {
       toast.success("Code envoyé !", {
         description: "Vérifiez votre boîte mail pour activer votre compte.",
       });
-      setShowOtp(true); // <--- On affiche l'interface OTP ici
+      setShowOtp(true); 
     } catch (err) {
-      toast.error(err.message || "Impossible de créer le compte.");
+      // Affiche par exemple : "Cet email est déjà utilisé"
+      toast.error(err);
     } finally {
       setLoading(false);
     }
   };
 
   // Gestion de la vérification OTP
- const handleVerifyOtp = async (e) => {
+  const handleVerifyOtp = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Appel au service au lieu d'axios en direct
       await authService.verifyOtp(registerData.email, otpCode);
-      
       toast.success("Compte activé avec succès !", {
         description: "Vous pouvez maintenant vous connecter."
       });
-      
-      setShowOtp(false); // On repasse à l'interface de connexion
-      
-      // On pré-remplit l'email pour faciliter la connexion
+      setShowOtp(false);
       setLoginData(prev => ({ ...prev, email: registerData.email }));
-      
     } catch (err) {
-      toast.error(err.message);
+      // Affiche par exemple : "Code invalide ou expiré"
+      toast.error(err);
     } finally {
       setLoading(false);
     }

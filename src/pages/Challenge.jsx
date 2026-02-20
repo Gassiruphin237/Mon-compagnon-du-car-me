@@ -12,42 +12,43 @@ export default function Challenge() {
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState(null);
 
-    useEffect(() => {
-        fetchChallenges();
-    }, []);
+   useEffect(() => {
+    fetchChallenges();
+}, []);
 
-    const fetchChallenges = async () => {
-        try {
-            const data = await challengeService.getAllChallenges();
-            setChallenges(data);
-        } catch (err) {
-            toast.error(err.message || "Erreur de chargement");
-        } finally {
-            setLoading(false);
-        }
-    };
+const fetchChallenges = async () => {
+    try {
+        const data = await challengeService.getAllChallenges();
+        setChallenges(data);
+    } catch (err) {
+        toast.error(err); 
+    } finally {
+        setLoading(false);
+    }
+};
 
-    const handleComplete = async (challengeId, isLocked) => {
-        // Sécurité supplémentaire côté Client
-        if (isLocked) {
-            toast.error("Patience ! Ce défi n'est pas encore disponible.");
-            return;
-        }
+const handleComplete = async (challengeId, isLocked) => {
+    if (isLocked) {
+        toast.error("Patience ! Ce défi n'est pas encore disponible.");
+        return;
+    }
 
-        setActionLoading(challengeId);
-        try {
-            await challengeService.completeChallenge(challengeId);
-            toast.success("Félicitations ! Défi accompli.");
+    setActionLoading(challengeId);
+    try {
+        await challengeService.completeChallenge(challengeId);
+        toast.success("Félicitations ! Défi accompli.");
 
-            setChallenges(prev => prev.map(c =>
-                c._id === challengeId ? { ...c, completed: true } : c
-            ));
-        } catch (err) {
-            toast.error(err.message || "Erreur lors de la validation");
-        } finally {
-            setActionLoading(null);
-        }
-    };
+        // Mise à jour locale pour un retour visuel immédiat
+        setChallenges(prev => prev.map(c =>
+            c._id === challengeId ? { ...c, completed: true } : c
+        ));
+    } catch (err) {
+        // 'err' affichera par exemple : "Ce défi est déjà accompli aujourd’hui."
+        toast.error(err); 
+    } finally {
+        setActionLoading(null);
+    }
+};
 
     const getCategoryIcon = (category) => {
         switch (category) {
