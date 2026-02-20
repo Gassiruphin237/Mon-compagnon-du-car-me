@@ -133,19 +133,25 @@ export default function DashboardLayout({ children }) {
         </footer>
       </main>
 
-      {/* --- MOBILE BOTTOM NAV --- */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t flex justify-around p-2.5 z-50 shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
-        {navItems.slice(0, 5).map((item) => (
-          <Link
-            key={item.path}
-            to={item.path}
-            className={`flex flex-col items-center gap-1 ${location.pathname === item.path ? "text-purple-600" : "text-slate-400"}`}
-          >
-            <item.icon size={18} />
-            <span className="text-[8px] font-bold uppercase tracking-tighter">{item.label}</span>
-          </Link>
-        ))}
-      </nav>
+ {/* --- MOBILE BOTTOM NAV (ULTRA COMPACT) --- */}
+<nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t z-50 shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
+  <div className="flex justify-between items-center px-1 py-2">
+    {navItems.map((item) => (
+      <Link
+        key={item.path}
+        to={item.path}
+        className={`flex flex-col items-center flex-1 gap-1 min-w-0 ${
+          location.pathname === item.path ? "text-purple-600" : "text-slate-400"
+        }`}
+      >
+        <item.icon size={16} /> {/* Icône plus petite */}
+        <span className="text-[6.5px] font-bold uppercase tracking-tighter truncate w-full text-center px-0.5">
+          {item.label}
+        </span>
+      </Link>
+    ))}
+  </div>
+</nav>
 
       {/* --- MODAL CONFIDENTIALITÉ (Universselle & Loi 25) --- */}
       {isPrivacyOpen && (

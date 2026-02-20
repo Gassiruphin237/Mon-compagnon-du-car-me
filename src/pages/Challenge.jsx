@@ -3,10 +3,10 @@ import DashboardLayout from "./Layout/DashboardLayout";
 import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
-import { Progress } from "../components/ui/progress"; 
-import { 
-    CheckCircle2, Lock, Sparkles, Flame, Heart, Sun, 
-    Loader2, Circle, Trophy, Medal, Star, Target 
+import { Progress } from "../components/ui/progress";
+import {
+    CheckCircle2, Lock, Sparkles, Flame, Heart, Sun,
+    Loader2, Circle, Trophy, Medal, Star, Target
 } from "lucide-react";
 import { challengeService } from "@/services/challengeService";
 import { toast } from "sonner";
@@ -76,7 +76,7 @@ export default function Challenge() {
     return (
         <DashboardLayout>
             <div className="space-y-8 max-w-7xl mx-auto">
-                
+
                 {/* --- HEADER & PROGRESSION --- */}
                 <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -117,22 +117,19 @@ export default function Challenge() {
                         return (
                             <Card
                                 key={item._id}
-                                className={`p-6 border-none transition-all duration-500 relative group ${
-                                    isToday ? "ring-2 ring-indigo-500 shadow-2xl scale-[1.02] bg-white z-10" : "shadow-sm hover:shadow-md"
-                                } ${isLocked ? "bg-slate-50/80 opacity-60" : isMissed ? "bg-red-50/30 border border-red-100" : "bg-white"}`}
+                                className={`p-6 border-none transition-all duration-500 relative group ${isToday ? "ring-2 ring-indigo-500 shadow-2xl scale-[1.02] bg-white z-10" : "shadow-sm hover:shadow-md"
+                                    } ${isLocked ? "bg-slate-50/80 opacity-60" : isMissed ? "bg-red-50/30 border border-red-100" : "bg-white"}`}
                             >
                                 <div className="flex justify-between items-start mb-4">
-                                    <div className={`h-12 w-12 rounded-2xl flex items-center justify-center font-black text-lg transition-transform group-hover:rotate-6 ${
-                                        isToday ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200" :
-                                        isMissed ? "bg-red-100 text-red-400" :
-                                        isLocked ? "bg-slate-200 text-slate-400" : "bg-indigo-50 text-indigo-600"
-                                    }`}>
+                                    <div className={`h-12 w-12 rounded-2xl flex items-center justify-center font-black text-lg transition-transform group-hover:rotate-6 ${isToday ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200" :
+                                            isMissed ? "bg-red-100 text-red-400" :
+                                                isLocked ? "bg-slate-200 text-slate-400" : "bg-indigo-50 text-indigo-600"
+                                        }`}>
                                         {item.dayNumber}
                                     </div>
 
-                                    <Badge variant="secondary" className={`${
-                                        isMissed ? "bg-red-50 text-red-500" : "bg-slate-50 text-slate-600"
-                                    } border-none px-3 py-1`}>
+                                    <Badge variant="secondary" className={`${isMissed ? "bg-red-50 text-red-500" : "bg-slate-50 text-slate-600"
+                                        } border-none px-3 py-1`}>
                                         {isMissed ? "Jour manqué" : item.category}
                                     </Badge>
                                 </div>

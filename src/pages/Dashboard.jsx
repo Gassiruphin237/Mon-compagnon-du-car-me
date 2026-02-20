@@ -99,7 +99,7 @@ export default function Dashboard() {
 
   // --- LOGIQUE DES BADGES ---
   const completedCount = data ? parseInt(data.progression) : 0;
-  
+
   const getUserBadge = () => {
     if (completedCount >= 31) return { name: "Apôtre de Lumière", icon: <Trophy size={18} className="text-amber-500" />, color: "bg-amber-50 text-amber-700" };
     if (completedCount >= 16) return { name: "Disciple Fidèle", icon: <Medal size={18} className="text-indigo-500" />, color: "bg-indigo-50 text-indigo-700" };
@@ -128,34 +128,34 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <div className="space-y-8 pb-10">
-{/* En-tête de bienvenue - OPTIMISÉ MOBILE */}
-<div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-    <div>
-      <h1 className="text-3xl font-black text-slate-900 tracking-tight">Bonjour, {user.name || "Pèlerin"} 👋</h1>
-      <p className="text-slate-500">Que votre journée soit remplie de paix et de recueillement.</p>
-    </div>
-    
-    {/* Badge visible partout (Mobile + Desktop) */}
-    <div className={`flex items-center w-fit gap-2 px-3 py-1.5 rounded-full border ${currentBadge.color} text-[11px] font-extrabold shadow-sm mt-2 sm:mt-0`}>
-        <p className="text-[10px] uppercase font-bold tracking-widest opacity-70">Badge Actuel</p>
-      {currentBadge.icon}
-      <span className="uppercase tracking-wider">{currentBadge.name}</span>
-    </div>
-  </div>
-  
-  <div className="flex items-center gap-3 bg-white/50 backdrop-blur-sm p-2 rounded-2xl w-fit">
-    <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg shadow-sm">
-      <Calendar size={20} />
-    </div>
-    <div className="flex flex-col">
-      <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Date du jour</span>
-      <span className="text-sm font-bold text-slate-700 capitalize">
-        {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
-      </span>
-    </div>
-  </div>
-</div>
+        {/* En-tête de bienvenue - OPTIMISÉ MOBILE */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div>
+              <h1 className="text-3xl font-black text-slate-900 tracking-tight">Bonjour, {user.name || "Pèlerin"} 👋</h1>
+              <p className="text-slate-500">Que votre journée soit remplie de paix et de recueillement.</p>
+            </div>
+
+            {/* Badge visible partout (Mobile + Desktop) */}
+            <div className={`flex items-center w-fit gap-2 px-3 py-1.5 rounded-full border ${currentBadge.color} text-[11px] font-extrabold shadow-sm mt-2 sm:mt-0`}>
+              <p className="text-[10px] uppercase font-bold tracking-widest opacity-70">Badge Actuel</p>
+              {currentBadge.icon}
+              <span className="uppercase tracking-wider">{currentBadge.name}</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 bg-white/50 backdrop-blur-sm p-2 rounded-2xl w-fit">
+            <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg shadow-sm">
+              <Calendar size={20} />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Date du jour</span>
+              <span className="text-sm font-bold text-slate-700 capitalize">
+                {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
+              </span>
+            </div>
+          </div>
+        </div>
 
         <JourneyProgress currentDay={data?.day || 0} />
 
@@ -166,17 +166,17 @@ export default function Dashboard() {
 
         <div className="border border-slate-200 bg-white rounded-xl overflow-hidden shadow-sm">
           <div className="flex flex-col md:flex-row">
-            
+
             {/* Section Vidéo */}
             <div className="w-full md:w-[300px] bg-slate-900 flex items-center justify-center p-4">
               <div className="w-full aspect-[9/16] border border-white/10 rounded-md overflow-hidden bg-black">
-                <iframe 
-                  width="100%" 
-                  height="100%" 
-                  src="https://www.youtube.com/embed/NCojJjF2XhY" 
-                  title="Le carême" 
-                  frameBorder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/NCojJjF2XhY"
+                  title="Le carême"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
               </div>
@@ -188,13 +188,13 @@ export default function Dashboard() {
                 <span className="h-px w-8 bg-amber-500"></span>
                 <span className="text-amber-600 font-bold text-xs uppercase tracking-tighter">Enseignement</span>
               </div>
-              
+
               <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
                 Comprendre le sens du Carême
               </h3>
-              
+
               <p className="text-slate-600 text-sm leading-relaxed mb-8 max-w-xl">
-                Découvrez en 60 secondes pourquoi le Carême dépasse la simple privation. 
+                Découvrez en 60 secondes pourquoi le Carême dépasse la simple privation.
                 C'est un temps de <strong>renouvellement intérieur</strong> articulé autour de trois piliers : la prière, le jeûne et l'aumône.
               </p>
 
@@ -209,22 +209,23 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-            
+
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8 space-y-8">
-
             {/* Défi du Jour */}
             <section className="space-y-4">
               <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
                 <Target className="text-indigo-600" size={20} /> Défi du jour
               </h3>
-              <Card className="p-8 border-none  bg-white border-l-4 border-l-indigo-600 rounded-3xl">
+
+              <Card className="p-8 border-none bg-white border-l-4 border-l-indigo-600 rounded-3xl shadow-sm">
                 <div className="flex flex-col md:flex-row gap-6 justify-between items-center text-center md:text-left">
                   <div className="space-y-2">
-                    <h3 className={`text-2xl font-black tracking-tight ${data?.isCompleted ? "text-slate-400" : "text-slate-800"}`}>
+                    {/* On grise le texte si c'est complété (en utilisant 'completed') */}
+                    <h3 className={`text-2xl font-black tracking-tight ${data?.completed ? "text-slate-400" : "text-slate-800"}`}>
                       {data?.challenge?.title || "Méditation"}
                     </h3>
                     <p className="text-slate-600 max-w-md">
@@ -232,12 +233,13 @@ export default function Dashboard() {
                     </p>
                   </div>
 
-                  {data?.isCompleted ? (
-                    <div className="flex items-center gap-3 bg-emerald-50 text-emerald-600 px-2 py-2 rounded-2xl border border-emerald-100 shadow-inner">
+                  {/* Condition basée sur la clé 'completed' du backend */}
+                  {data?.completed ? (
+                    <div className="flex items-center gap-3 bg-emerald-50 text-emerald-600 px-4 py-3 rounded-2xl border border-emerald-100 shadow-sm animate-in zoom-in duration-300">
                       <div className="bg-emerald-500 text-white p-1 rounded-full">
-                        <CheckCircle2 size={12} />
+                        <CheckCircle2 size={16} />
                       </div>
-                      <span className="text-sm font-black  tracking-tight">Défi relevé !</span>
+                      <span className="font-bold tracking-tight">Défi relevé !</span>
                     </div>
                   ) : (
                     <Button
