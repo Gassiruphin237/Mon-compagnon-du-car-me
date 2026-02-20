@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Home, BookOpen, Trophy, User, LogOut, Cross, CalendarDays, HeartHandshake } from "lucide-react";
+import { Home, BookOpen, Trophy, User, LogOut, Cross, CalendarDays, HeartHandshake, ChurchIcon } from "lucide-react";
 import { authService } from "../../services/authService";
 import { toast } from "sonner";
 
@@ -16,6 +16,7 @@ export default function DashboardLayout({ children }) {
 
  const navItems = [
   { icon: Home, label: "Accueil", path: "/dashboard" },
+    { icon: ChurchIcon, label: "Messe", path: "/Messe" },
   { icon: BookOpen, label: "Méditations", path: "/meditations" },
   { icon: CalendarDays, label: "Événements", path: "/events" }, 
   { icon: Trophy, label: "Défis", path: "/challenges" },
