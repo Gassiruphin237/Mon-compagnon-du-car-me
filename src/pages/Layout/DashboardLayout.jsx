@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { 
-  Home, BookOpen, Trophy, User, LogOut, Cross, 
-  CalendarDays, HeartHandshake, ChurchIcon, ShieldCheck, X 
+import {
+  Home, BookOpen, Trophy, User, LogOut, Cross,
+  CalendarDays, HeartHandshake, ChurchIcon, ShieldCheck, X
 } from "lucide-react";
 import { authService } from "../../services/authService";
 import { Button } from "../../components/ui/button";
@@ -12,7 +12,7 @@ export default function DashboardLayout({ children }) {
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   // Récupération sécurisée du nom (Prénom uniquement pour l'anonymisation)
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const firstName = user.name ? user.name.split(' ')[0] : "Pèlerin";
@@ -35,7 +35,7 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans text-slate-900">
-      
+
       {/* --- SIDEBAR DESKTOP --- */}
       <aside className="hidden md:flex w-60 bg-white border-r flex-col p-5 sticky top-0 h-screen">
         <div className="flex items-center gap-2.5 mb-8 px-2 group cursor-pointer" onClick={() => navigate("/dashboard")}>
@@ -56,11 +56,10 @@ export default function DashboardLayout({ children }) {
             <Link
               key={item.path}
               to={item.path}
-              className={`flex items-center gap-3 p-2.5 rounded-lg transition-all text-sm ${
-                location.pathname === item.path
+              className={`flex items-center gap-3 p-2.5 rounded-lg transition-all text-sm ${location.pathname === item.path
                   ? "bg-purple-600 text-white shadow-sm font-semibold"
                   : "text-slate-500 hover:bg-slate-50"
-              }`}
+                }`}
             >
               <item.icon size={18} />
               <span>{item.label}</span>
@@ -69,14 +68,14 @@ export default function DashboardLayout({ children }) {
         </nav>
 
         <div className="mt-auto pt-4 space-y-2 border-t border-slate-50">
-          <button 
+          <button
             onClick={() => setIsPrivacyOpen(true)}
             className="flex items-center gap-3 w-full p-2 text-slate-400 hover:text-indigo-600 transition-colors text-[10px] font-bold uppercase tracking-wider"
           >
             <ShieldCheck size={16} />
             <span>Confidentialité</span>
           </button>
-          
+
           <button
             onClick={handleLogout}
             className="flex items-center gap-3 w-full p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all text-sm font-medium"
@@ -89,7 +88,7 @@ export default function DashboardLayout({ children }) {
 
       {/* --- MAIN CONTENT --- */}
       <main className="flex-1 flex flex-col min-h-screen">
-        
+
         {/* MOBILE HEADER (Ajusté pour voir Confidentialité) */}
         <header className="p-3 md:hidden bg-white border-b border-slate-100 flex justify-between items-center sticky top-0 z-30">
           <div className="flex items-center gap-2">
@@ -98,9 +97,9 @@ export default function DashboardLayout({ children }) {
             </div>
             <span className="font-bold text-slate-800 text-sm tracking-tight">Compagnon</span>
           </div>
-          
+
           <div className="flex items-center gap-3">
-            <button 
+            <button
               onClick={() => setIsPrivacyOpen(true)}
               className="p-1.5 text-slate-400"
             >
@@ -115,11 +114,11 @@ export default function DashboardLayout({ children }) {
         <div className="flex-1 p-5 md:p-10 animate-in fade-in duration-500 max-w-6xl mx-auto w-full">
           {children}
         </div>
-        
+
         <footer className="py-6 px-6 border-t border-slate-100 bg-white mt-auto pb-24 md:pb-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 max-w-6xl mx-auto">
             <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest text-center italic">
-              © 2026 Compagnon du Carême 
+              © 2026 Compagnon du Carême
             </p>
             <div className="flex gap-6">
               <button onClick={() => setIsPrivacyOpen(true)} className="text-[10px] text-slate-400 hover:text-indigo-600 font-bold uppercase tracking-widest">
@@ -132,26 +131,36 @@ export default function DashboardLayout({ children }) {
           </div>
         </footer>
       </main>
+      {/* --- MOBILE BOTTOM NAV (REHAUSSÉ & ÉLÉGANT) --- */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t z-50 shadow-[0_-8px_25px_rgba(0,0,0,0.08)]">
+        {/* Augmentation du padding vertical (py-4 au lieu de py-2) */}
+        <div className="flex justify-between items-center px-2 py-4 pb-6">
+          {navItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`flex flex-col items-center flex-1 gap-2 transition-all duration-300 ${location.pathname === item.path
+                  ? "text-purple-600 scale-110"
+                  : "text-slate-400 hover:text-slate-600"
+                }`}
+            >
+              {/* Icône agrandie (size={20} au lieu de 16) */}
+              <item.icon size={20} strokeWidth={location.pathname === item.path ? 2.5 : 2} />
 
- {/* --- MOBILE BOTTOM NAV (ULTRA COMPACT) --- */}
-<nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t z-50 shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
-  <div className="flex justify-between items-center px-1 py-2">
-    {navItems.map((item) => (
-      <Link
-        key={item.path}
-        to={item.path}
-        className={`flex flex-col items-center flex-1 gap-1 min-w-0 ${
-          location.pathname === item.path ? "text-purple-600" : "text-slate-400"
-        }`}
-      >
-        <item.icon size={16} /> {/* Icône plus petite */}
-        <span className="text-[6.5px] font-bold uppercase tracking-tighter truncate w-full text-center px-0.5">
-          {item.label}
-        </span>
-      </Link>
-    ))}
-  </div>
-</nav>
+              {/* Texte agrandi et mieux espacé */}
+              <span className={`text-[8px] font-black uppercase tracking-widest truncate w-full text-center px-1 ${location.pathname === item.path ? "opacity-100" : "opacity-80"
+                }`}>
+                {item.label}
+              </span>
+
+              {/* Petit indicateur visuel pour l'item actif */}
+              {location.pathname === item.path && (
+                <div className="absolute -bottom-1 w-1 h-1 rounded-full bg-purple-600 animate-pulse" />
+              )}
+            </Link>
+          ))}
+        </div>
+      </nav>
 
       {/* --- MODAL CONFIDENTIALITÉ (Universselle & Loi 25) --- */}
       {isPrivacyOpen && (
@@ -191,7 +200,7 @@ export default function DashboardLayout({ children }) {
                 </div>
               </div>
 
-              <Button 
+              <Button
                 onClick={() => setIsPrivacyOpen(false)}
                 className="w-full mt-8 h-9 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white font-bold text-xs uppercase tracking-widest transition-all"
               >
